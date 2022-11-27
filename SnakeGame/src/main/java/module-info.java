@@ -9,6 +9,7 @@ module com.example.snakegame {
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.example.snakegame to javafx.fxml;
     exports com.example.snakegame;
