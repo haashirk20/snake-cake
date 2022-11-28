@@ -1,12 +1,11 @@
 package snakeModel;
 
 import java.awt.*;
-import javafx.scene.image.Image;
 
 public class Food {
     //instance variables
     Image image;
-    String[] imgString = new String[]{"img/ic_orange.png"};
+    String[] imgString = new String[]{"/img/ic_orange.png"};
     private int x,y;
 
     public Food(int rows, int cols, Snake snake){
@@ -20,7 +19,7 @@ public class Food {
                     continue start;
                 }
             }
-            image = new Image(imgString[0]);
+            //image = new Image(imgString[0]);
             break;
         }
     }
@@ -45,7 +44,4 @@ public class Food {
         return this.y;
     }
 
-    public Image getImage(){
-        return this.image;
-    }
 }
