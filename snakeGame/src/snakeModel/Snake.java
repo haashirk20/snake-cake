@@ -14,7 +14,7 @@ public class Snake {
     public Snake(int rows, int col){
         //generating body
         for (int i = 0; i < 3; i++) {
-            this.snakeBody.add(new Point(5, rows / 2));
+            this.snakeBody.add(new Point(col / 2, rows / 2));
         }
         snakeHead = snakeBody.get(0);
         size = snakeBody.size();
@@ -30,25 +30,20 @@ public class Snake {
 
     //movement method
     public void move(int direction){
+        //changing direction
+        switch (direction) {
+            case 0 -> snakeHead.x++;
+            case 1 -> snakeHead.x--;
+            case 2 -> snakeHead.y++;
+            case 3 -> snakeHead.y--;
+            default -> {
+            }
+        }
         //moving body
         for (int i = snakeBody.size() - 1; i >= 1; i--) {
             snakeBody.get(i).x = snakeBody.get(i - 1).x;
             snakeBody.get(i).y = snakeBody.get(i - 1).y;
         }
-        //changing direction
-        switch (direction) {
-            //right
-            case 0 -> snakeHead.x++;
-            //left
-            case 1 -> snakeHead.x--;
-            //up
-            case 2 -> snakeHead.y--;
-            //down
-            case 3 -> snakeHead.y++;
-            default -> {
-            }
-        }
-
     }
     //getters
     public ArrayList<Point> getBody(){
