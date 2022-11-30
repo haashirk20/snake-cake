@@ -42,7 +42,7 @@ public class Game {
     }
 
     //checking if snake has eaten food
-    private void eatFood() {
+    public void eatFood() {
         Point snakeHead = snake.getHead();
         //if snake on food, eat food and increase body size and score
         if (snakeHead.getX() == food.getX() && snakeHead.getY() == food.getY()) {
