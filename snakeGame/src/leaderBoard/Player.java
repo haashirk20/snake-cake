@@ -1,6 +1,8 @@
 package leaderBoard;
 
-public class Player {
+import java.io.*;
+
+public class Player implements Serializable, Comparable<Player>{
 
     private final String player;//hasmap key player, value integer Array list - txt file use it
     private final Integer playerScore;
@@ -23,3 +25,4 @@ public class Player {
         return playerScore.compareTo(player2.playerScore);
     }
 }
+

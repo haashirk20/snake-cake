@@ -1,0 +1,21 @@
+Index: snakeGame/.idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Default ignored files\n/shelf/\n/workspace.xml\n# Editor-based HTTP Client requests\n/httpRequests/\n# Datasource local storage ignored files\n/dataSources/\n/dataSources.local.xml\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/.idea/.gitignore b/snakeGame/.idea/.gitignore
+--- a/snakeGame/.idea/.gitignore	(revision 4a417aaab59c9e688a8eb2f5da2f64f4ad9f4de0)
++++ b/snakeGame/.idea/.gitignore	(date 1669864047003)
+@@ -6,3 +6,9 @@
+ # Datasource local storage ignored files
+ /dataSources/
+ /dataSources.local.xml
++.*/
++out/
++*.xml
++*.iml
++*.log
++*.class
+\ No newline at end of file

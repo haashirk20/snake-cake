@@ -1,0 +1,14 @@
+Index: snakeGame/src/Main.java
+===================================================================
+diff --git a/snakeGame/src/Main.java b/snakeGame/src/Main.java
+--- a/snakeGame/src/Main.java	
++++ b/snakeGame/src/Main.java	
+@@ -74,7 +74,7 @@
+             }
+         });
+ 
+-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
++        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(130), e -> run(gc)));
+         timeline.setCycleCount(Animation.INDEFINITE);
+         timeline.play();
+     }
