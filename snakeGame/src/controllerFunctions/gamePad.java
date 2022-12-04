@@ -49,6 +49,36 @@ public class gamePad {
         }
 
     }
+    public Controller getGamePad(){
+        Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers(); //gets all available controller.
+        Controller controller = null;
+        for (int i = 0; i < controllers.length; i++) {
+            if (controllers[i].getType() == Controller.Type.GAMEPAD || controllers[i].getType() == Controller.Type.STICK){
+                System.out.println(controllers[i].getName());
+                controller = controllers[i];
+
+            }
+
+        }
+    return controller;
+    }
+    public String gamePadName(){
+
+        String ControllerName = null;
+        Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers(); //gets all available controller.
+        Controller controller = null;
+        for (int i = 0; i < controllers.length; i++) {
+            if (controllers[i].getType() == Controller.Type.GAMEPAD || controllers[i].getType() == Controller.Type.STICK){
+                System.out.println(controllers[i].getName());
+                ControllerName = controllers[i].getName().toString();
+
+            }
+
+        }
+        return ControllerName;
+
+
+    }
 }
 
 
