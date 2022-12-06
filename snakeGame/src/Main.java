@@ -1,4 +1,5 @@
 import snakeModel.*;
+import controllerFunctions.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +16,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+import net.java.games.input.*;
+
+import snakeGameaudio.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -39,6 +45,8 @@ public class Main extends Application {
     private final int COLUMNS = board.getCol();
     private final int TILE_SIZE = board.getTileSize();
     boolean playGame = true;
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Snake");
@@ -49,10 +57,18 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         gc = canvas.getGraphicsContext2D();
+        musicPlayer player = new musicPlayer("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\AdhesiveWombat - Night Shade.wav");
+        player.startMusic();
+
+
+
+
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
             @Override
             public void handle(KeyEvent event) {
+
                 KeyCode code = event.getCode();
                 if (code == KeyCode.RIGHT || code == KeyCode.D) {
                     if (currentDirection != LEFT) {
@@ -72,7 +88,10 @@ public class Main extends Application {
                     }
                 }
             }
+
         });
+
+        //currentDirection = gamePad.gamePadNow();
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -80,6 +99,8 @@ public class Main extends Application {
     }
 
     private void run(GraphicsContext gc) {
+
+
         if (!playGame) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Digital-7", 70));
@@ -134,6 +155,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
         launch(args);
     }
 }

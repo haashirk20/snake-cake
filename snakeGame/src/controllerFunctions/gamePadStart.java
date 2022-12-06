@@ -6,7 +6,7 @@ import net.java.games.input.EventQueue;
 
 
 public class gamePadStart extends gamePad {
-    private Controller gameController;
+    private final Controller gameController;
     private String controllerName;
 
     //constructor
@@ -15,41 +15,44 @@ public class gamePadStart extends gamePad {
         this.controllerName = gamePadName();
     }
     // will allow everyone to recieve button inputs.
-    public void gamePadNow(){
+    public int gamePadNow() {
         EventQueue eventQueue = gameController.getEventQueue();
         Event event = new Event();
         Boolean stopped = false;
 
-        while(!stopped){
+        while (!stopped) {
             gameController.poll();
             eventQueue.getNextEvent(event);
             Component component = event.getComponent();
 
-            if (component != null){
+            if (component != null) {
                 Component.Identifier identifier = component.getIdentifier();
-                if ( identifier == Component.Identifier.Button._0){
-                    //snake moves back
+                if (identifier == Component.Identifier.Button._0) {
+                    //snake moves up
+                    return 0;
 
                 }
-                if (identifier == Component.Identifier.Button._1){
+                if (identifier == Component.Identifier.Button._1) {
                     //snake moves left
+                    return 1;
                 }
-                if (identifier == Component.Identifier.Button._2){
+                if (identifier == Component.Identifier.Button._2) {
                     //snake moves right
+                    return 2;
                 }
-                if (identifier == Component.Identifier.Button._3){
+                if (identifier == Component.Identifier.Button._3) {
                     //snake moves down
+                    return 3;
                 }
-            }
-            else {
+            } else {
                 System.out.println("No controller plugged in");
             }
 
-
+            return 4;
         }
 
-    }
-
+            return 6;
+        }
 }
 
 
