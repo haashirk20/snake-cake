@@ -10,6 +10,8 @@ public class Snake {
     private int foodEaten;
     private int size;
 
+    String snakeRace = "4674E9";
+
     //constructor
     public Snake(int rows, int col){
         //generating body
@@ -65,5 +67,12 @@ public class Snake {
 
     public int getSize(){
         return size;
+    }
+
+    public String getSnakeRace(){return snakeRace;}
+
+    //setters
+    public void setSnakeRace(String color){
+        this.snakeRace = color;
     }
 }
