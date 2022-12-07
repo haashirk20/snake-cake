@@ -18,8 +18,8 @@ public class Game {
     private GameBoard board;
     private boolean gameTrue;
     private int score;
-    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
-    musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+    Eating_SFX eatSound = new Eating_SFX("snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    musicPlayer player = new musicPlayer("snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
 
 
 

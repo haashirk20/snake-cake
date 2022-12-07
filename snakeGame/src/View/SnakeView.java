@@ -54,9 +54,9 @@ public class SnakeView {
 
     private int  eatCounter;
 
-    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
-    musicPlayer player1 = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
-    Eating_SFX gameOver = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/game over - sound effect.wav");
+    Eating_SFX eatSound = new Eating_SFX("snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    musicPlayer player1 = new musicPlayer("snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+    Eating_SFX gameOver = new Eating_SFX("snakeGame/src/game over - sound effect.wav");
 
 
     boolean colorblindMode = false;
@@ -73,7 +73,7 @@ public class SnakeView {
     Stage primaryStage;
 
     public void makeMenu(){
-        musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/AdhesiveWombat - Night Shade.wav");
+        musicPlayer player = new musicPlayer("snakeGame/src/AdhesiveWombat - Night Shade.wav");
         player.startMusic();
 
         primaryStage.setTitle("Snake Cake!");
