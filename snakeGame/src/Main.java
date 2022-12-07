@@ -1,3 +1,4 @@
+import leaderBoard.Player;
 import snakeModel.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.Point;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,7 +142,7 @@ public class Main extends Application {
         gc.fillText("Score: " + snakeGame.getScore(), 10, 35);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         launch(args);
     }
 }

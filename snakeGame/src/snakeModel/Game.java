@@ -3,6 +3,8 @@ package snakeModel;
 import View.SnakeView;
 import musicPlayer.Eating_SFX;
 
+import leaderBoard.Player;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;

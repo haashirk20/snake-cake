@@ -3,10 +3,13 @@ package View;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,13 +23,20 @@ import javafx.scene.text.Font;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javafx.scene.layout.*;
+import leaderBoard.Controller;
+import leaderBoard.LeaderBoardFile;
+import leaderBoard.Player;
 import musicPlayer.Eating_SFX;
 import musicPlayer.musicPlayer;
 import snakeModel.Game;
 import snakeModel.GameBoard;
 import snakeModel.Snake;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import javax.sound.sampled.Clip;
 
@@ -46,6 +56,7 @@ public class SnakeView {
     Snake snake;
     GameBoard board;
     String[] imgString = new String[]{"img/cake.png"};
+    Player player;
     private int WIDTH;
     private int HEIGHT;
     private int ROWS;
@@ -90,6 +101,9 @@ public class SnakeView {
         //title.setFont(Font.font ("Tahoma", 100));
         title.setFill(Color.BLUE);
 
+        //adding username box
+        TextField input = new TextField();
+        input.setMaxWidth(200);
 
         //Adding buttons
         Button startButton = new Button();
@@ -102,6 +116,11 @@ public class SnakeView {
                 player.stopMusic(); // stops music once play game is started
                 MakeGui();
                 player1.startMusic();
+                if(input.getText().isEmpty()){ // if user enters nothing it will be called "DEFAULT"
+                    player = new Player("DEFAULT", 0);
+                }else{ // initialize player with the username
+                    player = new Player(input.getText().toUpperCase(), 0);
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -116,11 +135,11 @@ public class SnakeView {
             this.pauseGame = true;
         });
 
-        Button ldButton = new Button();
+        Button ldButton = new Button(); //button for loading leaderboard
         ldButton.setText("Leaderboard");
         ldButton.setPrefSize(180, 60);
-        ldButton.setOnAction(actionEvent -> {
-            //add action
+        ldButton.setOnAction(actionEvent -> { // load leaderboard
+            createLeaderBoard();
         });
 
         //Beginning of difficulty GUI
@@ -147,7 +166,7 @@ public class SnakeView {
         //End of difficulty GUI
 
         VBox vbox = new VBox(20); // 5 is the spacing between elements in the VBox
-        vbox.getChildren().addAll(startButton, loadButton, ldButton, difficultyText, choiceList, setDifficulty);
+        vbox.getChildren().addAll(input, startButton, loadButton, ldButton);
         vbox.setAlignment(Pos.CENTER);
 
         HBox titleBox = new HBox(20);
@@ -176,6 +195,24 @@ public class SnakeView {
         this.WIDTH = snakeGame.getBoard().getWidth();
         primaryStage.setScene(new Scene(root, this.HEIGHT, this.WIDTH));
         primaryStage.show();
+    }
+
+    private void createLeaderBoard(){ // create leaderBoard GUI
+        try {
+            AnchorPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("leaderBoard/Controller.fxml")));
+            Button close = new Button();
+            Scene r = new Scene(root);
+            primaryStage.setScene(r);
+            primaryStage.show();
+            close.setText("Close");
+            close.setPrefSize(60, 10);
+            root.getChildren().add(close);
+            close.setOnAction(actionEvent ->  // if the user click close button it will load main menu
+                    makeMenu());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -302,6 +339,9 @@ public class SnakeView {
             gameOver.playSound(); // plays game over sound
             player1.stopMusic(); // stops teh background music
             //gameOver.startMusic();
+            //Upload user to leaderboard when the game is over
+            player.setPlayerScore(this.snakeGame.getScore());
+            LeaderBoardFile ld = new LeaderBoardFile(player);
         }else{
             snake.move(currentDirection);
 
