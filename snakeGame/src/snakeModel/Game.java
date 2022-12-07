@@ -3,14 +3,15 @@ package snakeModel;
 import musicPlayer.Eating_SFX;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import musicPlayer.musicPlayer;
 
-public class Game {
+public class Game implements Serializable {
+    private static final int RIGHT = 0;
+    private static final int LEFT = 1;
+    private static final int UP = 2;
+    private static final int DOWN = 3;
     //initalizing instance variables
 
     private Snake snake;
@@ -18,18 +19,15 @@ public class Game {
     private GameBoard board;
     private boolean gameTrue;
     private int score;
-    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
-    musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+    public int currDirection;
+    //Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    //musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
 
 
 
     //constructor
     public Game(){
-        gameTrue = true;
-        board = new GameBoard();
-        snake = new Snake(board.getRows(), board.getCol());
-        food = new Food(board.getRows(), board.getCol(), snake);
-        score = snake.getFoodEaten();
+        startGame();
     }
 
     public void loadGame(Snake snake, GameBoard board, Food food, int score){
@@ -47,6 +45,15 @@ public class Game {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void startGame() {
+        gameTrue = true;
+        board = new GameBoard();
+        snake = new Snake(board.getRows(), board.getCol());
+        food = new Food(board.getRows(), board.getCol(), snake);
+        score = snake.getFoodEaten();
+        int currDirection = RIGHT;
     }
 
 

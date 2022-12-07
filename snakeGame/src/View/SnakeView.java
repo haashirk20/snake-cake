@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -44,6 +45,7 @@ public class SnakeView {
     Game snakeGame;
     Snake snake;
     GameBoard board;
+    String[] imgString = new String[]{"img/cake.png"};
     private int WIDTH;
     private int HEIGHT;
     private int ROWS;
@@ -54,9 +56,9 @@ public class SnakeView {
 
     private int  eatCounter;
 
-    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
-    musicPlayer player1 = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
-    Eating_SFX gameOver = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/game over - sound effect.wav");
+    Eating_SFX eatSound = new Eating_SFX("src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    musicPlayer player1 = new musicPlayer("src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+    Eating_SFX gameOver = new Eating_SFX("src/game over - sound effect.wav");
 
 
     boolean colorblindMode = false;
@@ -73,11 +75,11 @@ public class SnakeView {
     Stage primaryStage;
 
     public void makeMenu(){
-        musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/AdhesiveWombat - Night Shade.wav");
+        musicPlayer player = new musicPlayer("src/AdhesiveWombat - Night Shade.wav");
         player.startMusic();
 
         primaryStage.setTitle("Snake Cake!");
-        primaryStage.getIcons().add(snakeGame.getFood().getImage());
+        primaryStage.getIcons().add(new Image(imgString[0]));
 
         Text title = new Text();
         title.setText("Snake Cake");
@@ -86,7 +88,7 @@ public class SnakeView {
                 "    -fx-stroke: black;\n" +
                 "    -fx-stroke-width: 1;");
         //title.setFont(Font.font ("Tahoma", 100));
-        title.setFill(Color.RED);
+        title.setFill(Color.BLUE);
 
 
         //Adding buttons
@@ -96,6 +98,7 @@ public class SnakeView {
         startButton.setPrefSize(180, 60);
         startButton.setOnAction(actionEvent -> {
             try {
+                this.playGame = true;
                 player.stopMusic(); // stops music once play game is started
                 MakeGui();
                 player1.startMusic();
@@ -109,6 +112,8 @@ public class SnakeView {
         loadButton.setPrefSize(180 , 60);
         loadButton.setOnAction(actionEvent -> {
             createLoadView();
+            this.playGame = true;
+            this.pauseGame = true;
         });
 
         Button ldButton = new Button();
@@ -126,12 +131,27 @@ public class SnakeView {
         titleBox.getChildren().add(title);
         titleBox.setAlignment(Pos.CENTER);
 
+        //initalize background image
+        Image image = new Image("img/snakeBackground2.png");
+
+        BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+
+        Background background2 = new Background(new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                bSize));
+
         //adding buttons to borderpane
         BorderPane root = new BorderPane();
         //root.getChildren().add(vbox);
         root.setCenter(vbox);
         root.setTop(titleBox);
-        primaryStage.setScene(new Scene(root, this.WIDTH, this.HEIGHT));
+        root.setBackground(background2);
+
+        this.HEIGHT = snakeGame.getBoard().getHeight();
+        this.WIDTH = snakeGame.getBoard().getWidth();
+        primaryStage.setScene(new Scene(root, this.HEIGHT, this.WIDTH));
         primaryStage.show();
     }
 
@@ -140,13 +160,13 @@ public class SnakeView {
     }
 
     private void createSaveView(){
-
+        SaveView saveView = new SaveView(this);
     }
 
 
     public void MakeGui() throws Exception {
-        snake = snakeGame.getSnake();
-        board = snakeGame.getBoard();
+        snake = this.snakeGame.getSnake();
+        board = this.snakeGame.getBoard();
 
         this.WIDTH = board.getWidth();
         this.HEIGHT = board.getHeight();
@@ -160,13 +180,22 @@ public class SnakeView {
 
         primaryStage.setTitle("Snake Cake");
         Group root = new Group();
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        Canvas canvas = new Canvas(this.HEIGHT, this.WIDTH);
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
         this.gc = canvas.getGraphicsContext2D();
 
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+            try {
+                run(gc);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -187,23 +216,26 @@ public class SnakeView {
                     if (currentDirection != UP) {
                         currentDirection = DOWN;
                     }
-                }else if (code == KeyCode.C){
+                } else if (code == KeyCode.C){
                     changeCBM();
-                }else if (code == KeyCode.P){
+                } else if (code == KeyCode.P && playGame){
                     pauseGame = !pauseGame;
+                } else if (code == KeyCode.R && !playGame) {
+                    restartGame();
+                    makeMenu();
+                    timeline.stop();
+                } else if (code == KeyCode.M && pauseGame){
+                    createSaveView();
                 }
             }
         });
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> {
-            try {
-                run(gc);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+
+    }
+
+    private void restartGame() {
+        this.snakeGame.startGame();
+        currentDirection = RIGHT;
     }
 
     private void changeCBM() {
@@ -222,7 +254,10 @@ public class SnakeView {
     }
 
     private void run(GraphicsContext gc) throws InterruptedException {
-
+        drawBackground(gc);
+        drawFood(gc);
+        drawSnake(gc);
+        drawScore();
         if (pauseGame && playGame){
             gc.setFill(Color.BLUE);
             gc.setFont(new Font("Digital-7", 70));
@@ -238,12 +273,7 @@ public class SnakeView {
             player1.stopMusic(); // stops teh background music
             //gameOver.startMusic();
         }else{
-            drawBackground(gc);
-            drawFood(gc);
-            drawSnake(gc);
-            drawScore();
             snake.move(currentDirection);
-
 
             playGame = snakeGame.gameState();
 
@@ -264,7 +294,6 @@ public class SnakeView {
             }
 
             snakeGame.eatFood();
-
         }
 
     }
@@ -282,9 +311,8 @@ public class SnakeView {
         }
     }
 
-    private void drawFood(GraphicsContext gc) throws InterruptedException {
-        //eatSound.startMusic();
-        gc.drawImage(snakeGame.getFood().getImage(), snakeGame.getFood().getX() * this.TILE_SIZE, snakeGame.getFood().getY() * this.TILE_SIZE, this.TILE_SIZE, this.TILE_SIZE);
+    private void drawFood(GraphicsContext gc) {
+        gc.drawImage(new Image(imgString[0]), snakeGame.getFood().getX() * this.TILE_SIZE, snakeGame.getFood().getY() * this.TILE_SIZE, this.TILE_SIZE, this.TILE_SIZE);
     }
 
     private void drawSnake(GraphicsContext gc) {
