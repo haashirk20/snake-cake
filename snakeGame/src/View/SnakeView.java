@@ -217,7 +217,7 @@ public class SnakeView {
         primaryStage.show();
         this.gc = canvas.getGraphicsContext2D();
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+        Timeline timeline = new Timeline(new KeyFrame( Duration.millis(100 - 20* snakeGame.getDifficultyLevel()), e -> {
             try {
                 run(gc);
             } catch (InterruptedException ex) {

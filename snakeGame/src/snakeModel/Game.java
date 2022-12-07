@@ -1,13 +1,10 @@
 package snakeModel;
 
 import View.SnakeView;
-import musicplayer.Eating_SFX;
+import musicPlayer.Eating_SFX;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import musicPlayer.musicPlayer;
 
@@ -58,7 +55,7 @@ public class Game implements Serializable {
         snake = new Snake(board.getRows(), board.getCol());
         food = new Food(board.getRows(), board.getCol(), snake);
         score = snake.getFoodEaten();
-        int currDirection = RIGHT;
+        currDirection = RIGHT;
     }
 
 
@@ -122,5 +119,9 @@ public class Game implements Serializable {
     }
     public int getScore(){
         return score;
+    }
+
+    public int getDifficultyLevel() {
+        return difficultyLevel;
     }
 }

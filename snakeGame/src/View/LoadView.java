@@ -94,7 +94,7 @@ public class LoadView {
         }
 
         selectboardlabel.setText(selectedBoard);
-
+        snakeView.currentDirection = snakeView.snakeGame.currDirection;
         snakeView.MakeGui();
     }
 
