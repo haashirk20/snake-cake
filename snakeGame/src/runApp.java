@@ -21,8 +21,7 @@ public class runApp extends Application {
 
         this.game = new Game();
         this.view = new SnakeView(this.game, primaryStage);
-       // musicPlayer player = new musicPlayer("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\AdhesiveWombat - Night Shade.wav");
-       // player.startMusic();
+
 
     }
 }

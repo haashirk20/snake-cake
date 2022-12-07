@@ -11,7 +11,10 @@ public class Eating_SFX {
 
     Clip lowerc;
 
-
+    /*
+    Initalizes the Eating_SFX class object
+    First grabs fie name, converts filename to audioinputstream and opens the file to be played from
+     */
     public Eating_SFX(String filename){
         try {
             File fileMusic = new File(filename); // gets file name of song
@@ -26,14 +29,26 @@ public class Eating_SFX {
         }
 
     }
+    /*
+    starts the sound effect, and sets the microsecond position to 10, to ensure sound gets
+    played multiple times.
+     */
     public void startMusic() throws InterruptedException {
 
         lowerc.start();//starts the audio file
         lowerc.setMicrosecondPosition(10); // sets the sound of the clip back to 10 micros
         //lowerc.loop(Clip.LOOP_CONTINUOUSLY);
 
-
     }
+    /*
+    Plays the sound, used for playing sound effects.
+     */
+    public void playSound() throws InterruptedException{
+        lowerc.start();
+    }
+    /*
+    stops the clip audio
+     */
     public void stopMusic(){
         lowerc.stop();
 

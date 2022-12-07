@@ -22,9 +22,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.*;
 import musicPlayer.Eating_SFX;
+import musicPlayer.musicPlayer;
 import snakeModel.Game;
 import snakeModel.GameBoard;
 import snakeModel.Snake;
+
+import javax.sound.sampled.Clip;
 
 
 public class SnakeView {
@@ -51,7 +54,10 @@ public class SnakeView {
 
     private int  eatCounter;
 
-    Eating_SFX eatSound = new Eating_SFX("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    musicPlayer player1 = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+    Eating_SFX gameOver = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/game over - sound effect.wav");
+
 
     boolean colorblindMode = false;
 
@@ -67,6 +73,9 @@ public class SnakeView {
     Stage primaryStage;
 
     public void makeMenu(){
+        musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/AdhesiveWombat - Night Shade.wav");
+        player.startMusic();
+
         primaryStage.setTitle("Snake Cake!");
         primaryStage.getIcons().add(snakeGame.getFood().getImage());
 
@@ -87,7 +96,9 @@ public class SnakeView {
         startButton.setPrefSize(180, 60);
         startButton.setOnAction(actionEvent -> {
             try {
+                player.stopMusic(); // stops music once play game is started
                 MakeGui();
+                player1.startMusic();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -216,10 +227,16 @@ public class SnakeView {
             gc.setFill(Color.BLUE);
             gc.setFont(new Font("Digital-7", 70));
             gc.fillText("Paused", this.WIDTH / 3.5, this.HEIGHT / 2);
+            player1.stopMusic();
         } else if (!playGame) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Digital-7", 70));
             gc.fillText("Game Over", this.WIDTH / 3.5, this.HEIGHT / 2);
+
+            eatSound.stopMusic();// stops the eat sound
+            gameOver.playSound(); // plays game over sound
+            player1.stopMusic(); // stops teh background music
+            //gameOver.startMusic();
         }else{
             drawBackground(gc);
             drawFood(gc);

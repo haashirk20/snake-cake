@@ -12,7 +12,7 @@ public class Snake implements Serializable {
     private final Point snakeHead;
     private int foodEaten;
     private int size;
-    Eating_SFX eatSound = new Eating_SFX("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
 
     String snakeRace = "4674E9";
 
@@ -30,9 +30,9 @@ public class Snake implements Serializable {
     //precondition, foodX,foodY == snakeHead.x, snakeHead.y
     public void eatFood() throws InterruptedException {
         this.snakeBody.add(new Point(-1, -1));
+        eatSound.startMusic();
         size += 1;
         foodEaten += 1;
-        eatSound.startMusic();
 
     }
 
