@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.*;
+import musicPlayer.Eating_SFX;
 import snakeModel.Game;
 import snakeModel.GameBoard;
 import snakeModel.Snake;
@@ -48,6 +49,12 @@ public class SnakeView {
     private int ROWS;
     private int COLUMNS;
     private int TILE_SIZE;
+
+    private int prev_score = 0;
+
+    private int  eatCounter;
+
+    Eating_SFX eatSound = new Eating_SFX("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
 
     boolean colorblindMode = false;
 
@@ -254,7 +261,22 @@ public class SnakeView {
 
             playGame = snakeGame.gameState();
 
+
+            if (snakeGame.getScore() != prev_score){
+                prev_score = snakeGame.getScore();
+                eatCounter = 0;
+                eatSound.startMusic();
+
+            }
+            if (eatCounter == 10){
+                eatSound.stopMusic();
+            }
+            else {
+                eatCounter++;
+            }
+
             snakeGame.eatFood();
+
         }
 
     }

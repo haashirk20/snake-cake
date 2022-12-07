@@ -75,12 +75,18 @@ public class Main extends Application {
             }
         });
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+            try {
+                run(gc);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
-    private void run(GraphicsContext gc) {
+    private void run(GraphicsContext gc) throws InterruptedException {
         if (!playGame) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Digital-7", 70));
