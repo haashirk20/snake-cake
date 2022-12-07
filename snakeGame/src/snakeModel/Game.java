@@ -1,5 +1,7 @@
 package snakeModel;
 
+import leaderBoard.Player;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
