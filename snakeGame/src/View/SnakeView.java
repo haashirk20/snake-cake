@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.*;
@@ -60,10 +61,24 @@ public class SnakeView {
 
     public void makeMenu(){
         primaryStage.setTitle("Snake Cake!");
-        Button btn = new Button();
+        primaryStage.getIcons().add(snakeGame.getFood().getImage());
 
-        btn.setText("Start Game!");
-        btn.setOnAction(actionEvent -> {
+        Text title = new Text();
+        title.setText("Snake Cake");
+        title.setStyle("-fx-font: 100px Tahoma;\n" +
+                "    -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);\n" +
+                "    -fx-stroke: black;\n" +
+                "    -fx-stroke-width: 1;");
+        //title.setFont(Font.font ("Tahoma", 100));
+        title.setFill(Color.RED);
+
+
+        //Adding buttons
+        Button startButton = new Button();
+
+        startButton.setText("Start Game!");
+        startButton.setPrefSize(180, 60);
+        startButton.setOnAction(actionEvent -> {
             try {
                 MakeGui();
             } catch (Exception e) {
@@ -73,15 +88,31 @@ public class SnakeView {
 
         Button loadButton = new Button();
         loadButton.setText("Load Game!");
+        loadButton.setPrefSize(180 , 60);
         loadButton.setOnAction(actionEvent -> {
             createLoadView();
         });
 
+        Button ldButton = new Button();
+        ldButton.setText("Leaderboard");
+        ldButton.setPrefSize(180, 60);
+        ldButton.setOnAction(actionEvent -> {
+            //add action
+        });
+
+        VBox vbox = new VBox(20); // 5 is the spacing between elements in the VBox
+        vbox.getChildren().addAll(startButton, loadButton, ldButton);
+        vbox.setAlignment(Pos.CENTER);
+
+        HBox titleBox = new HBox(20);
+        titleBox.getChildren().add(title);
+        titleBox.setAlignment(Pos.CENTER);
+
+        //adding buttons to borderpane
         BorderPane root = new BorderPane();
-        root.setCenter(btn);
-        root.setLeft(loadButton);
-        //root.getChildren().add(btn);
-        //root.getChildren().add(loadButton);
+        //root.getChildren().add(vbox);
+        root.setCenter(vbox);
+        root.setTop(titleBox);
         primaryStage.setScene(new Scene(root, this.WIDTH, this.HEIGHT));
         primaryStage.show();
     }
@@ -146,7 +177,13 @@ public class SnakeView {
             }
         });
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> {
+            try {
+                run(gc);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
@@ -166,7 +203,7 @@ public class SnakeView {
         }
     }
 
-    private void run(GraphicsContext gc) {
+    private void run(GraphicsContext gc) throws InterruptedException {
 
         if (pauseGame && playGame){
             gc.setFill(Color.BLUE);
@@ -176,7 +213,6 @@ public class SnakeView {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Digital-7", 70));
             gc.fillText("Game Over", this.WIDTH / 3.5, this.HEIGHT / 2);
-            return;
         }else{
             drawBackground(gc);
             drawFood(gc);
