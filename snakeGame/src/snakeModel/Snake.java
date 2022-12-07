@@ -1,5 +1,7 @@
 package snakeModel;
 
+import musicPlayer.Eating_SFX;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -9,6 +11,9 @@ public class Snake {
     private final Point snakeHead;
     private int foodEaten;
     private int size;
+    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+
+    String snakeRace = "4674E9";
 
     //constructor
     public Snake(int rows, int col){
@@ -22,10 +27,12 @@ public class Snake {
     }
 
     //precondition, foodX,foodY == snakeHead.x, snakeHead.y
-    public void eatFood(){
+    public void eatFood() throws InterruptedException {
         this.snakeBody.add(new Point(-1, -1));
+        eatSound.startMusic();
         size += 1;
         foodEaten += 1;
+
     }
 
     //movement method
@@ -65,5 +72,12 @@ public class Snake {
 
     public int getSize(){
         return size;
+    }
+
+    public String getSnakeRace(){return snakeRace;}
+
+    //setters
+    public void setSnakeRace(String color){
+        this.snakeRace = color;
     }
 }
