@@ -11,7 +11,7 @@ public class LeaderBoardFile {
     private static LeaderBoardFile getInstance = null;
 
     public String s;
-    public LeaderBoardFile(Player player){
+    public LeaderBoardFile(Player player){ // Singleton used and will add player in to the text file(Violates Single responsibility)
         if(getInstance == null) {
             try {
                 ArrayList<Player> all = new ArrayList<>();
@@ -33,15 +33,20 @@ public class LeaderBoardFile {
     }
 
     private LeaderBoardFile(){
+        /*used for singleton instance
+        */
         s = "Part of the class";
     }
 
     public ArrayList<Player> sortArrayList(ArrayList<Player> players){
+        /* Sort the arraylist in descending order and return the sorted array
+        */
         Collections.sort(players);
         return players;
     }
 
     public ArrayList<Player> getLeaderBoardFIle() throws IOException{
+        /*get all the players from the txt file */
         ArrayList<Player> objects = new ArrayList<Player>();
         try {
             FileInputStream fis = new FileInputStream(leaderBoardFile);

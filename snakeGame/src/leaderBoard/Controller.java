@@ -37,13 +37,13 @@ public class Controller implements Initializable{
     @FXML
     private ColorPicker colourchoice;
 
-    public void setColourchoice(javafx.event.ActionEvent event) {
+    public void setColourchoice(javafx.event.ActionEvent event) { // set colour to the user choice
         Color myColour = colourchoice.getValue();
         scenePane.setBackground(new Background(new BackgroundFill(myColour, null, null)));
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle) { // initialize the table view
 
         table.setItems(getLeaderBoardFIle());
         //set up the columns in the table
@@ -53,7 +53,7 @@ public class Controller implements Initializable{
         if(!getLeaderBoardFIle().isEmpty()) table.setItems(getLeaderBoardFIle());
     }
 
-    public ObservableList<Player> getLeaderBoardFIle() {
+    public ObservableList<Player> getLeaderBoardFIle() { // get the Players written on the file
         ObservableList<Player> objects = FXCollections.observableArrayList();
         try {
             FileInputStream fis = new FileInputStream(leaderBoardFile);
