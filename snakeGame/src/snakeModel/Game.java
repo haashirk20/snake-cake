@@ -1,5 +1,7 @@
 package snakeModel;
 
+import View.SnakeView;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,6 +17,7 @@ public class Game {
     private GameBoard board;
     private boolean gameTrue;
     private int score;
+    private int difficultyLevel = 1; //1 = Easy, 2 = Medium, 3 = Hard
 
     //constructor
     public Game(){
@@ -70,7 +73,19 @@ public class Game {
         if (snakeHead.getX() == food.getX() && snakeHead.getY() == food.getY()) {
             snake.eatFood();
             food = new Food(board.getRows(), board.getCol(), snake);
-            score = snake.getFoodEaten();
+            score = snake.getFoodEaten() * this.difficultyLevel;
+        }
+    }
+
+    public void setDiff(String level) {
+        if (level.equals("Medium")) {
+            this.difficultyLevel = 2;
+        }
+        else if (level.equals("Hard")) {
+            this.difficultyLevel = 3;
+        }
+        else {
+            this.difficultyLevel = 1;
         }
     }
 
@@ -87,4 +102,5 @@ public class Game {
     public int getScore(){
         return score;
     }
+    public int getDifficultyLevel() { return this.difficultyLevel; }
 }
