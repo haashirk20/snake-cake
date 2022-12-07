@@ -15,8 +15,8 @@ public class musicPlayer {
         try {
             File fileMusic = new File(filename); // gets file name of song
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(fileMusic); //sets the song to file
-            lowerc = AudioSystem.getClip();
-            lowerc.open(audioInput);
+            lowerc = AudioSystem.getClip(); // gets teh audio clip
+            lowerc.open(audioInput); //opens the audio file.
 
         }
         catch (Exception e){

@@ -21,15 +21,15 @@ public class Eating_SFX {
             //lowerc.setMicrosecondPosition(500);
 
         }
-        catch (Exception e){
+        catch (Exception e){ // will catch the exceptioj
 
         }
 
     }
     public void startMusic() throws InterruptedException {
 
-        lowerc.start();
-        lowerc.setMicrosecondPosition(10);
+        lowerc.start();//starts the audio file
+        lowerc.setMicrosecondPosition(10); // sets the sound of the clip back to 10 micros
         //lowerc.loop(Clip.LOOP_CONTINUOUSLY);
 
 
