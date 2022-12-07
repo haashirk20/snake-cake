@@ -1,5 +1,7 @@
 package snakeModel;
 
+import musicPlayer.Eating_SFX;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,6 +17,8 @@ public class Game {
     private GameBoard board;
     private boolean gameTrue;
     private int score;
+    Eating_SFX eatSound = new Eating_SFX("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+
 
     //constructor
     public Game(){
@@ -64,14 +68,19 @@ public class Game {
     }
 
     //checking if snake has eaten food
-    public void eatFood() {
+    public void eatFood() throws InterruptedException {
         Point snakeHead = snake.getHead();
         //if snake on food, eat food and increase body size and score
         if (snakeHead.getX() == food.getX() && snakeHead.getY() == food.getY()) {
+            eatSound.startMusic();
+
             snake.eatFood();
             food = new Food(board.getRows(), board.getCol(), snake);
             score = snake.getFoodEaten();
+            //eatSound.startMusic();
+            //eatSound.stopMusic();
         }
+
     }
 
     //getters

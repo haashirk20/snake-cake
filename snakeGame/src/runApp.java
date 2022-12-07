@@ -9,7 +9,7 @@ public class runApp extends Application {
     Game game;
     SnakeView view;
 
-    musicPlayer player = new musicPlayer("C:\Users\Avi\luh-veggies\snakeGame\src\AdhesiveWombat - Night Shade.wav");
+
 
 
     public static void main(String[] args) {
@@ -18,9 +18,11 @@ public class runApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         this.game = new Game();
         this.view = new SnakeView(this.game, primaryStage);
-        musicPlayer player = new musicPlayer("C:\Users\Avi\luh-veggies\snakeGame\src\AdhesiveWombat - Night Shade.wav");
-        player.startMusic();
+       // musicPlayer player = new musicPlayer("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\AdhesiveWombat - Night Shade.wav");
+       // player.startMusic();
+
     }
 }
