@@ -123,8 +123,31 @@ public class SnakeView {
             //add action
         });
 
+        //Beginning of difficulty GUI
+        Text difficultyText = new Text();
+        difficultyText.setText("Choose Difficulty and Submit:");
+        difficultyText.setStyle("-fx-font: 20px Tahoma;\n" +
+                "    -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);\n" +
+                "    -fx-stroke: black;\n" +
+                "    -fx-stroke-width: 1;");
+
+        difficultyText.setFill(Color.RED);
+
+        Button setDifficulty = new Button();
+        setDifficulty.setText("Submit");
+        loadButton.setPrefSize(180 , 60);
+
+        ChoiceBox<String> choiceList = new ChoiceBox<>();
+        choiceList.getItems().add("Easy");
+        choiceList.getItems().add("Medium");
+        choiceList.getItems().add("Hard");
+        choiceList.setValue("Easy");
+
+        setDifficulty.setOnAction(actionEvent -> setDifficulty(choiceList));
+        //End of difficulty GUI
+
         VBox vbox = new VBox(20); // 5 is the spacing between elements in the VBox
-        vbox.getChildren().addAll(startButton, loadButton, ldButton);
+        vbox.getChildren().addAll(startButton, loadButton, ldButton, difficultyText, choiceList, setDifficulty);
         vbox.setAlignment(Pos.CENTER);
 
         HBox titleBox = new HBox(20);
@@ -155,6 +178,13 @@ public class SnakeView {
         primaryStage.show();
     }
 
+    /*
+    Method to set the difficulty level chosen by the user.
+     */
+    private void setDifficulty(ChoiceBox<String> choiceList) {
+        String currDifficulty = choiceList.getValue();
+        this.snakeGame.setDiff(currDifficulty);
+    }
     private void createLoadView() {
         LoadView loadView = new LoadView(this);
     }
@@ -216,9 +246,9 @@ public class SnakeView {
                     if (currentDirection != UP) {
                         currentDirection = DOWN;
                     }
-                } else if (code == KeyCode.C){
+                }else if (code == KeyCode.C){
                     changeCBM();
-                } else if (code == KeyCode.P && playGame){
+                }else if (code == KeyCode.P){
                     pauseGame = !pauseGame;
                 } else if (code == KeyCode.R && !playGame) {
                     restartGame();

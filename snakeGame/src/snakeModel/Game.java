@@ -1,9 +1,13 @@
 package snakeModel;
 
-import musicPlayer.Eating_SFX;
+import View.SnakeView;
+import musicplayer.Eating_SFX;
 
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import musicPlayer.musicPlayer;
 
@@ -19,6 +23,7 @@ public class Game implements Serializable {
     private GameBoard board;
     private boolean gameTrue;
     private int score;
+    private int difficultyLevel = 1; //1 = Easy, 2 = Medium, 3 = Hard
     public int currDirection;
     //Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
     //musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
@@ -88,9 +93,19 @@ public class Game implements Serializable {
 
             snake.eatFood();
             food = new Food(board.getRows(), board.getCol(), snake);
-            score = snake.getFoodEaten();
-            //eatSound.startMusic();
-            //eatSound.stopMusic();
+            score = snake.getFoodEaten() * this.difficultyLevel;
+        }
+    }
+
+    public void setDiff(String level) {
+        if (level.equals("Medium")) {
+            this.difficultyLevel = 2;
+        }
+        else if (level.equals("Hard")) {
+            this.difficultyLevel = 3;
+        }
+        else {
+            this.difficultyLevel = 1;
         }
 
     }

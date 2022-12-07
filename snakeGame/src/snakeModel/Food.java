@@ -11,7 +11,7 @@ public class Food implements Serializable {
     //String[] imgString = new String[]{"img/cake.png"};
     private int x,y;
 
-    public Food(int rows, int cols, Snake snake){
+    public Food(int rows, int cols, snakeModel.Snake snake){
         start:
         while (true) {
             x = (int) (Math.random() * rows);
