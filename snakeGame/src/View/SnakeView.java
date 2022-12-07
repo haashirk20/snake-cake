@@ -234,11 +234,13 @@ public class SnakeView {
             if (snakeGame.getScore() != prev_score){
                 prev_score = snakeGame.getScore();
                 eatCounter = 0;
-                eatSound.startMusic();
+                //eatSound.startMusic();
 
             }
             if (eatCounter == 10){
-                eatSound.stopMusic();
+                eatSound.startMusic();
+                eatCounter = 0;
+                //eatSound.startMusic();
             }
             else {
                 eatCounter++;
@@ -263,7 +265,8 @@ public class SnakeView {
         }
     }
 
-    private void drawFood(GraphicsContext gc) {
+    private void drawFood(GraphicsContext gc) throws InterruptedException {
+        //eatSound.startMusic();
         gc.drawImage(snakeGame.getFood().getImage(), snakeGame.getFood().getX() * this.TILE_SIZE, snakeGame.getFood().getY() * this.TILE_SIZE, this.TILE_SIZE, this.TILE_SIZE);
     }
 

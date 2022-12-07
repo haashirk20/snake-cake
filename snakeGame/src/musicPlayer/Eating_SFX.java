@@ -18,6 +18,7 @@ public class Eating_SFX {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(fileMusic); //sets the song to file
             lowerc = AudioSystem.getClip();
             lowerc.open(audioInput);
+            //lowerc.setMicrosecondPosition(500);
 
         }
         catch (Exception e){
@@ -26,7 +27,9 @@ public class Eating_SFX {
 
     }
     public void startMusic() throws InterruptedException {
+
         lowerc.start();
+        lowerc.setMicrosecondPosition(10);
         //lowerc.loop(Clip.LOOP_CONTINUOUSLY);
 
 

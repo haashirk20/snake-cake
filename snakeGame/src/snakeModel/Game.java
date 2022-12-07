@@ -72,7 +72,7 @@ public class Game {
         Point snakeHead = snake.getHead();
         //if snake on food, eat food and increase body size and score
         if (snakeHead.getX() == food.getX() && snakeHead.getY() == food.getY()) {
-            eatSound.startMusic();
+            //eatSound.startMusic();
 
             snake.eatFood();
             food = new Food(board.getRows(), board.getCol(), snake);
