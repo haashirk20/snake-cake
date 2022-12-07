@@ -27,6 +27,7 @@ public class Main extends Application {
     private static final int LEFT = 1;
     private static final int UP = 2;
     private static final int DOWN = 3;
+    String[] imgString = new String[]{"img/cake.png"};
 
     private GraphicsContext gc;
     int currentDirection = RIGHT;
@@ -113,7 +114,7 @@ public class Main extends Application {
     }
 
     private void drawFood(GraphicsContext gc) {
-        gc.drawImage(snakeGame.getFood().getImage(), snakeGame.getFood().getX() * TILE_SIZE, snakeGame.getFood() .getY()* TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        gc.drawImage(new Image(imgString[0]), snakeGame.getFood().getX() * TILE_SIZE, snakeGame.getFood() .getY()* TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
     private void drawSnake(GraphicsContext gc) {

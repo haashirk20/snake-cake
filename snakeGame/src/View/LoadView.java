@@ -51,7 +51,15 @@ public class LoadView {
         selectboardbutton.setId("ChangeBoard");
 
         selectboardbutton.setOnAction(actionEvent -> {
-             selectBoard(selectboardlabel, boardsList);
+            try {
+                selectBoard(selectboardlabel, boardsList);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            snakeView.currentDirection = snakeView.snakeGame.currDirection;
+            snakeView.playGame = true;
+            dialog.close();
+
         });
 
         VBox selectedBoardBox = new VBox(10, selectboardlabel, boardsList, selectboardbutton);
@@ -72,14 +80,11 @@ public class LoadView {
         Scene dialogScene = new Scene(dialogVbox, 400, 400);
         dialog.setScene(dialogScene);
         dialog.show();
-        dialog.setOnCloseRequest(event -> {
-            snakeView.playGame = true;
-        });
 
 
     }
 
-    private void selectBoard(Label selectboardlabel, ListView<String> boardsList)throws RuntimeException{
+    private void selectBoard(Label selectboardlabel, ListView<String> boardsList) throws Exception {
         String selectedBoard = boardsList.getSelectionModel().getSelectedItem();
 
         try {
@@ -89,6 +94,8 @@ public class LoadView {
         }
 
         selectboardlabel.setText(selectedBoard);
+
+        snakeView.MakeGui();
     }
 
     private void getFiles(ListView<String> boardsList) {

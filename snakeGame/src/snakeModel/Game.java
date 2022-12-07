@@ -1,13 +1,14 @@
 package snakeModel;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Serializable {
+    private static final int RIGHT = 0;
+    private static final int LEFT = 1;
+    private static final int UP = 2;
+    private static final int DOWN = 3;
     //initalizing instance variables
 
     private Snake snake;
@@ -16,13 +17,11 @@ public class Game {
     private boolean gameTrue;
     private int score;
 
+    public int currDirection = RIGHT;
+
     //constructor
     public Game(){
-        gameTrue = true;
-        board = new GameBoard();
-        snake = new Snake(board.getRows(), board.getCol());
-        food = new Food(board.getRows(), board.getCol(), snake);
-        score = snake.getFoodEaten();
+        startGame();
     }
 
     public void loadGame(Snake snake, GameBoard board, Food food, int score){
@@ -37,9 +36,19 @@ public class Game {
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(this);
+
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void startGame(){
+        gameTrue = true;
+        board = new GameBoard();
+        snake = new Snake(board.getRows(), board.getCol());
+        food = new Food(board.getRows(), board.getCol(), snake);
+        score = snake.getFoodEaten();
+        currDirection = RIGHT;
     }
 
 

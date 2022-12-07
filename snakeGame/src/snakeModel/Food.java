@@ -1,12 +1,14 @@
 package snakeModel;
 
 import java.awt.*;
+import java.io.Serializable;
+
 import javafx.scene.image.Image;
 
-public class Food {
+public class Food implements Serializable {
     //instance variables
-    Image image;
-    String[] imgString = new String[]{"img/cake.png"};
+    //Image image;
+    //String[] imgString = new String[]{"img/cake.png"};
     private int x,y;
 
     public Food(int rows, int cols, Snake snake){
@@ -20,7 +22,7 @@ public class Food {
                     continue start;
                 }
             }
-            image = new Image(imgString[0]);
+            //image = new Image(imgString[0]);
             break;
         }
     }
@@ -32,9 +34,9 @@ public class Food {
     public void setY(int y){
         this.y = y;
     }
-    public void setImage(Image img){
-        this.image = img;
-    }
+//    public void setImage(Image img){
+//        this.image = img;
+//    }
 
     //getters
     public int getX(){
@@ -45,7 +47,7 @@ public class Food {
         return this.y;
     }
 
-    public Image getImage(){
-        return this.image;
-    }
+//    public Image getImage(){
+//        return this.image;
+//    }
 }

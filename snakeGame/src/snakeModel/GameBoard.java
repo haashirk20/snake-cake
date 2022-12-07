@@ -1,10 +1,12 @@
 package snakeModel;
 
-public class GameBoard {
+import java.io.Serializable;
+
+public class GameBoard implements Serializable {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
     public static final int COLUMNS = 20;
-    public static final int ROWS = COLUMNS;
+    public static final int ROWS = 20;
 
     private String tileColor1,tileColor2;
 

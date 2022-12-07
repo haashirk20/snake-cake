@@ -1,9 +1,10 @@
 package snakeModel;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Snake {
+public class Snake implements Serializable {
     //class variables
     private ArrayList<Point> snakeBody = new ArrayList<Point>();
     private final Point snakeHead;
