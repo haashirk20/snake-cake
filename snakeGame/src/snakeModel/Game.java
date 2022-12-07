@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import musicPlayer.musicPlayer;
 
 public class Game {
     //initalizing instance variables
@@ -17,7 +18,9 @@ public class Game {
     private GameBoard board;
     private boolean gameTrue;
     private int score;
-    Eating_SFX eatSound = new Eating_SFX("C:\\Users\\Avi\\luh-veggies\\snakeGame\\src\\Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    Eating_SFX eatSound = new Eating_SFX("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    musicPlayer player = new musicPlayer("/Users/avirajghatora/IdeaProjects/luh-veggies/snakeGame/src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+
 
 
     //constructor
@@ -55,12 +58,14 @@ public class Game {
         //if snake hits edge of board
         if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x * board.tileSize >= board.getWidth() || snakeHead.y * board.tileSize >= board.getHeight()) {
             gameTrue = false;
+
         }
 
         //if snake hits itself
         for (int i = 1; i < snakeBody.size(); i++) {
             if (snakeHead.x == snakeBody.get(i).getX() && snakeHead.getY() == snakeBody.get(i).getY()) {
                 gameTrue = false;
+                //  player.stopMusic();
                 break;
             }
         }
