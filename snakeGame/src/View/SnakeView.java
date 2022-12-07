@@ -61,7 +61,7 @@ public class SnakeView {
     public void makeMenu(){
         primaryStage.setTitle("Snake Cake!");
         Button btn = new Button();
-        Button loadButton = new Button();
+
         btn.setText("Start Game!");
         btn.setOnAction(actionEvent -> {
             try {
@@ -71,6 +71,7 @@ public class SnakeView {
             }
         });
 
+        Button loadButton = new Button();
         loadButton.setText("Load Game!");
         loadButton.setOnAction(actionEvent -> {
             createLoadView();
