@@ -103,9 +103,9 @@ public class Main extends Application {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
                 if ((i + j) % 2 == 0) {
-                    gc.setFill(Color.web("AAD751"));
+                    gc.setFill(Color.web(board.getTileColor1()));
                 } else {
-                    gc.setFill(Color.web("A2D149"));
+                    gc.setFill(Color.web(board.getTileColor2()));
                 }
                 gc.fillRect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
