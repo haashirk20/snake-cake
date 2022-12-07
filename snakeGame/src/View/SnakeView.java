@@ -4,19 +4,26 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.layout.*;
 import snakeModel.Game;
 import snakeModel.GameBoard;
 import snakeModel.Snake;
+
 
 public class SnakeView {
 
@@ -27,15 +34,16 @@ public class SnakeView {
     private static final int DOWN = 3;
 
     private GraphicsContext gc;
+    boolean pauseGame = false;
     int currentDirection = RIGHT;
     Game snakeGame;
     Snake snake;
     GameBoard board;
-    private final int WIDTH;
-    private final int HEIGHT;
-    private final int ROWS;
-    private final int COLUMNS;
-    private final int TILE_SIZE;
+    private int WIDTH;
+    private int HEIGHT;
+    private int ROWS;
+    private int COLUMNS;
+    private int TILE_SIZE;
 
     boolean colorblindMode = false;
 
@@ -45,6 +53,48 @@ public class SnakeView {
     public SnakeView(Game game, Stage stage) throws Exception {
         this.snakeGame = game;
         this.primaryStage = stage;
+        makeMenu();
+    }
+    boolean playGame = true;
+    Stage primaryStage;
+
+    public void makeMenu(){
+        primaryStage.setTitle("Snake Cake!");
+        Button btn = new Button();
+        Button loadButton = new Button();
+        btn.setText("Start Game!");
+        btn.setOnAction(actionEvent -> {
+            try {
+                MakeGui();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        loadButton.setText("Load Game!");
+        loadButton.setOnAction(actionEvent -> {
+            createLoadView();
+        });
+
+        BorderPane root = new BorderPane();
+        root.setCenter(btn);
+        root.setLeft(loadButton);
+        //root.getChildren().add(btn);
+        //root.getChildren().add(loadButton);
+        primaryStage.setScene(new Scene(root, this.WIDTH, this.HEIGHT));
+        primaryStage.show();
+    }
+
+    private void createLoadView() {
+        LoadView loadView = new LoadView(this);
+    }
+
+    private void createSaveView(){
+
+    }
+
+
+    public void MakeGui() throws Exception {
         snake = snakeGame.getSnake();
         board = snakeGame.getBoard();
 
@@ -57,24 +107,15 @@ public class SnakeView {
         this.tile1 = board.getTileColor1();
         this.tile2 = board.getTileColor2();
         this.snakeRace = snake.getSnakeRace();
-        //this.scoreColor() = "BLACK";
-        MakeGui();
-    }
-    boolean playGame = true;
-    Stage primaryStage;
 
-
-
-    public void MakeGui() throws Exception {
-
-        primaryStage.setTitle("Snake");
+        primaryStage.setTitle("Snake Cake");
         Group root = new Group();
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
-        gc = canvas.getGraphicsContext2D();
+        this.gc = canvas.getGraphicsContext2D();
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -98,6 +139,8 @@ public class SnakeView {
                     }
                 }else if (code == KeyCode.C){
                     changeCBM();
+                }else if (code == KeyCode.P){
+                    pauseGame = !pauseGame;
                 }
             }
         });
@@ -123,23 +166,29 @@ public class SnakeView {
     }
 
     private void run(GraphicsContext gc) {
-        if (!playGame) {
+
+        if (pauseGame && playGame){
+            gc.setFill(Color.BLUE);
+            gc.setFont(new Font("Digital-7", 70));
+            gc.fillText("Paused", this.WIDTH / 3.5, this.HEIGHT / 2);
+        } else if (!playGame) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Digital-7", 70));
             gc.fillText("Game Over", this.WIDTH / 3.5, this.HEIGHT / 2);
             return;
+        }else{
+            drawBackground(gc);
+            drawFood(gc);
+            drawSnake(gc);
+            drawScore();
+            snake.move(currentDirection);
+
+
+            playGame = snakeGame.gameState();
+
+            snakeGame.eatFood();
         }
-        drawBackground(gc);
-        drawFood(gc);
-        drawSnake(gc);
-        drawScore();
 
-        snake.move(currentDirection);
-
-
-        playGame = snakeGame.gameState();
-
-        snakeGame.eatFood();
     }
 
     private void drawBackground(GraphicsContext gc) {
