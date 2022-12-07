@@ -33,6 +33,7 @@ import snakeModel.GameBoard;
 import snakeModel.Snake;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class SnakeView {
@@ -94,9 +95,9 @@ public class SnakeView {
         startButton.setOnAction(actionEvent -> {
             try {
                 MakeGui();
-                if(input.getText().toUpperCase().isEmpty()){
+                if(input.getText().isEmpty()){ // if user enters nothing it will be called "DEFAULT"
                     player = new Player("DEFAULT", 0);
-                }else{
+                }else{ // initialize player with the username
                     player = new Player(input.getText().toUpperCase(), 0);
                 }
             } catch (Exception e) {
@@ -111,7 +112,7 @@ public class SnakeView {
             createLoadView();
         });
 
-        Button ldButton = new Button();
+        Button ldButton = new Button(); //button for loading leaderboard
         ldButton.setText("Leaderboard");
         ldButton.setPrefSize(180, 60);
         ldButton.setOnAction(actionEvent -> { // load leaderboard
@@ -135,18 +136,18 @@ public class SnakeView {
         primaryStage.show();
     }
 
-    private void createLeaderBoard(){
+    private void createLeaderBoard(){ // create leaderBoard GUI
         try {
-            AnchorPane root = FXMLLoader.load(getClass().getClassLoader().getResource("leaderBoard/Controller.fxml"));
+            AnchorPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("leaderBoard/Controller.fxml")));
             Button close = new Button();
             Scene r = new Scene(root);
+            primaryStage.setScene(r);
+            primaryStage.show();
             close.setText("Close");
             close.setPrefSize(60, 10);
             root.getChildren().add(close);
-            close.setOnAction(actionEvent ->
+            close.setOnAction(actionEvent ->  // if the user click close button it will load main menu
                     makeMenu());
-            primaryStage.setScene(r);
-            primaryStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,7 +250,7 @@ public class SnakeView {
             gc.setFill(Color.RED);
             gc.setFont(new Font("Digital-7", 70));
             gc.fillText("Game Over", this.WIDTH / 3.5, this.HEIGHT / 2);
-            //enter user to leaderboard
+            //Upload user to leaderboard when the game is over
             player.setPlayerScore(this.snakeGame.getScore());
             LeaderBoardFile ld = new LeaderBoardFile(player);
         }else{

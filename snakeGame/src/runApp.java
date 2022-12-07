@@ -13,7 +13,6 @@ public class runApp extends Application {
     Game game;
     SnakeView view;
 
-
     public static void main(String[] args) {
         launch(args);
     }
