@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 public class Food {
     //instance variables
     Image image;
-    String[] imgString = new String[]{"img/ic_orange.png"};
+    String[] imgString = new String[]{"img/cake.png"};
     private int x,y;
 
     public Food(int rows, int cols, Snake snake){

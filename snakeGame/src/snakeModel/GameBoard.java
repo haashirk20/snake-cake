@@ -6,6 +6,8 @@ public class GameBoard {
     public static final int COLUMNS = 20;
     public static final int ROWS = COLUMNS;
 
+    private String tileColor1,tileColor2;
+
     int width,height,col,row, tileSize;
 
     //constructor
@@ -15,6 +17,8 @@ public class GameBoard {
         col = COLUMNS;
         row = ROWS;
         tileSize = width / row;
+        tileColor1 = "AAD751";
+        tileColor2 = "A2D149";
     }
 
     //getters
@@ -32,5 +36,20 @@ public class GameBoard {
     }
     public int getTileSize(){
         return this.tileSize;
+    }
+    public String getTileColor1(){
+        return this.tileColor1;
+    }
+    public String getTileColor2(){
+        return this.tileColor2;
+    }
+
+    //setters
+    public void setTileColor1(String color){
+        this.tileColor1 = color;
+    }
+
+    public void setTileColor2(String color){
+        this.tileColor2 = color;
     }
 }
