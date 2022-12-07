@@ -14,15 +14,17 @@ public class runApp extends Application {
     Game game;
     SnakeView view;
 
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Player p1 = new Player("test", 0);
+        FileOutputStream f = new FileOutputStream("leaderBoard.txt");
+        ObjectOutputStream oo = new ObjectOutputStream(f);
+        oo.writeObject(p1);
+        oo.close();
 
         this.game = new Game();
         this.view = new SnakeView(this.game, primaryStage);

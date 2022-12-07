@@ -1,6 +1,5 @@
 package leaderBoard;
 
-import View.MainMenu;
 import com.sun.tools.javac.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -3,13 +3,10 @@ package View;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,10 +20,8 @@ import javafx.scene.text.Font;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javafx.scene.layout.*;
-import leaderBoard.Controller;
 import leaderBoard.LeaderBoardFile;
 import leaderBoard.Player;
 import musicPlayer.Eating_SFX;
@@ -35,10 +30,7 @@ import snakeModel.Game;
 import snakeModel.GameBoard;
 import snakeModel.Snake;
 
-import java.io.IOException;
 import java.util.Objects;
-
-import javax.sound.sampled.Clip;
 
 
 public class SnakeView {
@@ -67,10 +59,10 @@ public class SnakeView {
 
     private int  eatCounter;
 
-    Eating_SFX eatSound = new Eating_SFX("src/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
-    musicPlayer player1 = new musicPlayer("src/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
-    Eating_SFX gameOver = new Eating_SFX("src/game over - sound effect.wav");
-
+    Eating_SFX eatSound = new Eating_SFX("src/music/Y2Mate.is - MUNCH SOUND EFFECT  NO COPYRIGHT-iunt_lNPCP8-128k-1654069699129.wav");
+    musicPlayer player1 = new musicPlayer("src/music/Y2Mate.is - Quincas Moreira - Robot City ♫ NO COPYRIGHT 8-bit Music-NAKj3HJX_tM-48k-1654121927214.wav");
+    Eating_SFX gameOver = new Eating_SFX("src/music/game over - sound effect.wav");
+    musicPlayer mainplayer = new musicPlayer("src/music/AdhesiveWombat - Night Shade.wav");
 
     boolean colorblindMode = false;
 
@@ -86,8 +78,8 @@ public class SnakeView {
     Stage primaryStage;
 
     public void makeMenu(){
-        musicPlayer player = new musicPlayer("src/AdhesiveWombat - Night Shade.wav");
-        player.startMusic();
+
+        mainplayer.startMusic();
 
         primaryStage.setTitle("Snake Cake!");
         primaryStage.getIcons().add(new Image(imgString[0]));
@@ -113,7 +105,7 @@ public class SnakeView {
         startButton.setOnAction(actionEvent -> {
             try {
                 this.playGame = true;
-                player.stopMusic(); // stops music once play game is started
+                mainplayer.stopMusic(); // stops music once play game is started
                 MakeGui();
                 player1.startMusic();
                 if(input.getText().isEmpty()){ // if user enters nothing it will be called "DEFAULT"
@@ -154,7 +146,7 @@ public class SnakeView {
 
         Button setDifficulty = new Button();
         setDifficulty.setText("Submit");
-        loadButton.setPrefSize(180 , 60);
+        setDifficulty.setPrefSize(180 , 60);
 
         ChoiceBox<String> choiceList = new ChoiceBox<>();
         choiceList.getItems().add("Easy");
@@ -166,7 +158,7 @@ public class SnakeView {
         //End of difficulty GUI
 
         VBox vbox = new VBox(20); // 5 is the spacing between elements in the VBox
-        vbox.getChildren().addAll(input, startButton, loadButton, ldButton);
+        vbox.getChildren().addAll(input, startButton, loadButton, ldButton, difficultyText, choiceList, setDifficulty);
         vbox.setAlignment(Pos.CENTER);
 
         HBox titleBox = new HBox(20);
@@ -207,9 +199,11 @@ public class SnakeView {
             close.setText("Close");
             close.setPrefSize(60, 10);
             root.getChildren().add(close);
-            close.setOnAction(actionEvent ->  // if the user click close button it will load main menu
-                    makeMenu());
-
+            //if they press close then return to main menu
+            close.setOnAction(actionEvent -> {
+                mainplayer.stopMusic();
+                makeMenu();
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -254,7 +248,7 @@ public class SnakeView {
         primaryStage.show();
         this.gc = canvas.getGraphicsContext2D();
 
-        Timeline timeline = new Timeline(new KeyFrame( Duration.millis(100 - 20* snakeGame.getDifficultyLevel()), e -> {
+        Timeline timeline = new Timeline(new KeyFrame( Duration.millis(150 - 20* snakeGame.getDifficultyLevel()), e -> {
             try {
                 run(gc);
             } catch (InterruptedException ex) {
@@ -286,6 +280,10 @@ public class SnakeView {
                 }else if (code == KeyCode.C){
                     changeCBM();
                 }else if (code == KeyCode.P){
+                    if(pauseGame)
+                        player1.startMusic();
+                    else
+                        player1.stopMusic();
                     pauseGame = !pauseGame;
                 } else if (code == KeyCode.R && !playGame) {
                     restartGame();
@@ -354,10 +352,10 @@ public class SnakeView {
                 //eatSound.startMusic();
 
             }
-            if (eatCounter == 10){
-                eatSound.startMusic();
+            if (eatCounter == 4){
+                //eatSound.stopMusic();
                 eatCounter = 0;
-                //eatSound.startMusic();
+                 eatSound.startMusic();
             }
             else {
                 eatCounter++;
