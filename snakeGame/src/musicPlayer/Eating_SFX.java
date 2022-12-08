@@ -7,7 +7,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.net.URL;
 
-public class Eating_SFX {
+public class Eating_SFX implements musicInterface {
 
     Clip lowerc;
 
@@ -33,7 +33,7 @@ public class Eating_SFX {
     starts the sound effect, and sets the microsecond position to 10, to ensure sound gets
     played multiple times.
      */
-    public void startMusic() throws InterruptedException {
+    public void startMusic() {
 
         lowerc.start();//starts the audio file
         lowerc.setMicrosecondPosition(10); // sets the sound of the clip back to 10 micros

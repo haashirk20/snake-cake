@@ -9,7 +9,7 @@ import java.awt.desktop.OpenFilesHandler;
 import java.io.File;
 import java.util.Objects;
 
-public class musicPlayer {
+public class musicPlayer implements musicInterface {
 
     Clip lowerc;
 
