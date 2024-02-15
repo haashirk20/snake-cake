@@ -1,2 +1,4 @@
-# luh-veggies
-CSC207 project by Haashir, Aviraj, Ryan and Andrew
+# Snake Cake
+  A reimagination of the classic "snake game", made by Haashir Khan, Andrew Kim, Aviraj Ghatora and Ryan Oakley
+
+
