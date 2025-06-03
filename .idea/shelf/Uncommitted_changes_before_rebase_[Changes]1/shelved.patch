@@ -1,0 +1,240 @@
+Index: snakeGame/src/View/snakeView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package View;\n\npublic class snakeView {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/View/snakeView.java b/snakeGame/src/View/snakeView.java
+--- a/snakeGame/src/View/snakeView.java	(revision ea666e876812ea14b1d23c8a9f5e7f7e25cfea2c)
++++ b/snakeGame/src/View/snakeView.java	(date 1670382053338)
+@@ -1,4 +1,5 @@
+ package View;
+ 
+ public class snakeView {
++
+ }
+Index: snakeGame/src/leaderBoard/Controller.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/leaderBoard/Controller.fxml b/snakeGame/src/leaderBoard/Controller.fxml
+new file mode 100644
+--- /dev/null	(date 1670382053342)
++++ b/snakeGame/src/leaderBoard/Controller.fxml	(date 1670382053342)
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<?import javafx.scene.control.ColorPicker?>
++<?import javafx.scene.control.TableColumn?>
++<?import javafx.scene.control.TableView?>
++<?import javafx.scene.layout.*?>
++<AnchorPane fx:id="scenePane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="leaderBoard.Controller">
++   <children>
++      <TableView fx:id="table" layoutX="24.0" layoutY="24.0" prefHeight="358.0" prefWidth="552.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="24.0">
++        <columns>
++          <TableColumn fx:id="user" prefWidth="119.0" text="Player" />
++            <TableColumn fx:id="score" prefWidth="225.0" text="Score" />
++        </columns>
++      </TableView>
++      <ColorPicker fx:id="colourchoice" layoutX="470.0" layoutY="2.0" onAction="#setColourchoice" prefHeight="22.0" prefWidth="130.0" AnchorPane.rightAnchor="0.0" />
++   </children>
++</AnchorPane>
+Index: snakeGame/src/leaderBoard/Player.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/leaderBoard/Player.java b/snakeGame/src/leaderBoard/Player.java
+new file mode 100644
+--- /dev/null	(date 1670382053349)
++++ b/snakeGame/src/leaderBoard/Player.java	(date 1670382053349)
+@@ -0,0 +1,35 @@
++package leaderBoard;
++
++import javafx.fxml.FXML;
++
++import java.io.Serial;
++import java.io.Serializable;
++
++public class Player implements Serializable, Comparable<Player>{
++
++    @FXML
++    private final String player;
++    @FXML
++    private final Integer playerScore;
++
++    @Serial
++    private static final long serialVersionUID = 7852570481729415609L;
++
++    public Player(String name, Integer score) {
++        this.player = name;
++        this.playerScore = score;
++    }
++
++    public Integer getPlayerScore() {
++        return this.playerScore;
++    }
++
++    public String getPlayer() {
++        return this.player;
++    }
++
++    public int compareTo(Player player2){
++        return playerScore.compareTo(player2.playerScore);
++    }
++}
++
+Index: snakeGame/src/leaderBoard/Controller.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/leaderBoard/Controller.java b/snakeGame/src/leaderBoard/Controller.java
+new file mode 100644
+--- /dev/null	(date 1670382053346)
++++ b/snakeGame/src/leaderBoard/Controller.java	(date 1670382053346)
+@@ -0,0 +1,77 @@
++package leaderBoard;
++
++import javafx.collections.FXCollections;
++import javafx.collections.ObservableList;
++import javafx.fxml.FXML;
++import javafx.fxml.Initializable;
++import javafx.scene.control.ColorPicker;
++import javafx.scene.control.TableColumn;
++import javafx.scene.control.TableView;
++import javafx.scene.control.cell.PropertyValueFactory;
++import javafx.scene.layout.AnchorPane;
++import javafx.scene.layout.Background;
++import javafx.scene.layout.BackgroundFill;
++import javafx.scene.paint.Color;
++
++import java.io.FileInputStream;
++import java.io.IOException;
++import java.io.ObjectInputStream;
++import java.net.URL;
++import java.util.ResourceBundle;
++
++
++public class Controller implements Initializable{
++
++    private final String leaderBoardFile = "leaderBoard.txt";
++    @FXML
++    private TableColumn<Player, String> user;
++    @FXML
++    private TableColumn<Player, Integer> score;
++    @FXML
++    private TableView<Player> table;
++    @FXML
++    private AnchorPane scenePane;
++    @FXML
++    private ColorPicker colourchoice;
++
++    public void setColourchoice(javafx.event.ActionEvent event) {
++        Color myColour = colourchoice.getValue();
++        scenePane.setBackground(new Background(new BackgroundFill(myColour, null, null)));
++    }
++
++    @Override
++    public void initialize(URL url, ResourceBundle resourceBundle) {
++
++        table.setItems(getLeaderBoardFIle());
++        //set up the columns in the table
++        user.setCellValueFactory(new PropertyValueFactory<Player, String>("player"));
++        score.setCellValueFactory(new PropertyValueFactory<Player, Integer>("playerScore"));
++        //load data
++
++        table.setItems(getLeaderBoardFIle());
++    }
++
++    public ObservableList<Player> getLeaderBoardFIle() {
++        ObservableList<Player> objects = FXCollections.observableArrayList();
++        try {
++            FileInputStream fis = new FileInputStream(leaderBoardFile);
++            ObjectInputStream ois = new ObjectInputStream(fis);
++            Player obj = null;
++
++            boolean isExist = true;
++
++            while (isExist) {
++                if (fis.available() != 0) {
++                    obj = (Player) ois.readObject();
++                    objects.add(obj);
++                } else {
++                    isExist = false;
++                }
++            }
++        }catch (IOException | ClassNotFoundException e){
++            throw new RuntimeException(e);
++        }
++        return objects;
++    }
++}
++
+Index: snakeGame/src/leaderBoard/LeaderBoardFile.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/leaderBoard/LeaderBoardFile.java b/snakeGame/src/leaderBoard/LeaderBoardFile.java
+new file mode 100644
+--- /dev/null	(date 1670382053352)
++++ b/snakeGame/src/leaderBoard/LeaderBoardFile.java	(date 1670382053352)
+@@ -0,0 +1,55 @@
++package leaderBoard;
++
++import java.io.*;
++import java.util.ArrayList;
++import java.util.Collections;
++
++public class LeaderBoardFile {
++
++    private final String leaderBoardFile = "leaderBoard.txt";
++
++    public LeaderBoardFile(Player player){
++        try{
++            ArrayList<Player> all = new ArrayList<>();
++            if (!getLeaderBoardFIle().isEmpty()){
++                all = getLeaderBoardFIle();
++            }
++            FileOutputStream f = new FileOutputStream(leaderBoardFile);
++            ObjectOutputStream oot = new ObjectOutputStream(f);
++            all.add(player);
++            for (Player p: sortArrayList(all)){
++                oot.writeObject(p);
++            }
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++    }
++
++    public ArrayList<Player> sortArrayList(ArrayList<Player> players){
++        Collections.sort(players);
++        return players;
++    }
++
++    public ArrayList<Player> getLeaderBoardFIle() throws IOException{
++        ArrayList<Player> objects = new ArrayList<Player>();
++        try {
++            FileInputStream fis = new FileInputStream(leaderBoardFile);
++            ObjectInputStream ois = new ObjectInputStream(fis);
++            Player obj = null;
++
++            boolean isExist = true;
++
++            while (isExist) {
++                if (fis.available() != 0) {
++                    obj = (Player) ois.readObject();
++                    objects.add(obj);
++                } else {
++                    isExist = false;
++                }
++            }
++        }catch (IOException | ClassNotFoundException e){
++            throw new RuntimeException(e);
++        }
++        return objects;
++    }
++}

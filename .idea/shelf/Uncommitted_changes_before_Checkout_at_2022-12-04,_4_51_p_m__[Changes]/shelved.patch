@@ -1,0 +1,102 @@
+Index: snakeGame/src/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/Main.java b/snakeGame/src/Main.java
+--- a/snakeGame/src/Main.java	
++++ b/snakeGame/src/Main.java	
+@@ -1,8 +1,4 @@
+-<<<<<<< HEAD
+-public class Main {
+-    public static void main(String[] args) {
+-        System.out.println("Hello world!");
+-=======
++
+ import snakeModel.*;
+ import javafx.animation.Animation;
+ import javafx.animation.KeyFrame;
+@@ -140,6 +136,5 @@
+ 
+     public static void main(String[] args) {
+         launch(args);
+->>>>>>> 63580783e59becb24462dcf57225234ee1720fcb
+     }
+ }
+\ No newline at end of file
+Index: snakeGame/src/snakeModel/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/snakeModel/Game.java b/snakeGame/src/snakeModel/Game.java
+--- a/snakeGame/src/snakeModel/Game.java	
++++ b/snakeGame/src/snakeModel/Game.java	
+@@ -42,11 +42,9 @@
+     }
+ 
+     //checking if snake has eaten food
+-<<<<<<< HEAD
+-    private void eatFood() {
+-=======
++
+     public void eatFood() {
+->>>>>>> 63580783e59becb24462dcf57225234ee1720fcb
++
+         Point snakeHead = snake.getHead();
+         //if snake on food, eat food and increase body size and score
+         if (snakeHead.getX() == food.getX() && snakeHead.getY() == food.getY()) {
+Index: snakeGame/src/snakeModel/Snake.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snakeGame/src/snakeModel/Snake.java b/snakeGame/src/snakeModel/Snake.java
+--- a/snakeGame/src/snakeModel/Snake.java	
++++ b/snakeGame/src/snakeModel/Snake.java	
+@@ -14,11 +14,8 @@
+     public Snake(int rows, int col){
+         //generating body
+         for (int i = 0; i < 3; i++) {
+-<<<<<<< HEAD
+             this.snakeBody.add(new Point(col / 2, rows / 2));
+-=======
+             this.snakeBody.add(new Point(5, rows / 2));
+->>>>>>> 63580783e59becb24462dcf57225234ee1720fcb
+         }
+         snakeHead = snakeBody.get(0);
+         size = snakeBody.size();
+@@ -34,7 +31,7 @@
+ 
+     //movement method
+     public void move(int direction){
+-<<<<<<< HEAD
++
+         //changing direction
+         switch (direction) {
+             case 0 -> snakeHead.x++;
+@@ -44,15 +41,12 @@
+             default -> {
+             }
+         }
+-=======
+->>>>>>> 63580783e59becb24462dcf57225234ee1720fcb
++
+         //moving body
+         for (int i = snakeBody.size() - 1; i >= 1; i--) {
+             snakeBody.get(i).x = snakeBody.get(i - 1).x;
+             snakeBody.get(i).y = snakeBody.get(i - 1).y;
+         }
+-<<<<<<< HEAD
+-=======
+         //changing direction
+         switch (direction) {
+             //right
+@@ -67,7 +61,6 @@
+             }
+         }
+ 
+->>>>>>> 63580783e59becb24462dcf57225234ee1720fcb
+     }
+     //getters
+     public ArrayList<Point> getBody(){
