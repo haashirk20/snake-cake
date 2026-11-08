@@ -1,67 +1,67 @@
-# Snake Cake
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/hero-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero-light.svg">
+    <img src="assets/readme/hero-dark.svg" width="880" alt="Snake Cake: a JavaFX Snake game on a 20 by 20 board, 100 ms per tick, two palettes, built by four teammates.">
+  </picture>
+</p>
 
-A JavaFX take on Snake: steer the snake to eat cake, avoid the walls and your own tail, and get your score onto a saved leaderboard.
+<p align="center">
+  <strong>A JavaFX Snake game with cake, a colour-blind mode and a saved leaderboard.</strong><br>
+  <strong>20×20 board &middot; 100 ms tick &middot; 2 palettes</strong><br>
+  <sub>Team project for CSC207 (Software Design), built by Haashir Khan, Andrew Kim, Aviraj Ghatora and Ryan Oakley.</sub>
+</p>
 
-![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white)
-![JavaFX](https://img.shields.io/badge/JavaFX-19-1F6FEB)
-
-## Demo
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-1E2B14?style=flat-square&logo=openjdk&logoColor=white" alt="Java">
+  <img src="https://img.shields.io/badge/JavaFX-19-1E2B14?style=flat-square" alt="JavaFX 19">
+</p>
 
 <!-- TODO: demo link or video -->
 
-## Overview
+---
 
-Snake Cake is a desktop Snake game built as a team project for CSC207 (Software Design). You enter a name on the main menu, play on a tiled board, and when the game ends your score is written to a local leaderboard you can open from the menu. The project splits game logic from the JavaFX views so the rules can change without touching the rendering code.
+You enter a name on the main menu, play on a tiled board, and when the game ends your score is written to a local leaderboard you can open from the menu. Game logic is kept apart from the JavaFX views, so the rules can change without touching the rendering code.
 
-## Key features
+## How to play
 
-- Arrow keys or WASD to steer, and the snake can't reverse into itself.
-- `P` pauses and resumes the game.
-- `C` toggles a colour-blind mode that swaps the green board and blue snake for a grey board and a black snake.
-- A main menu with a name field, Start, Load and Leaderboard buttons.
-- A leaderboard table (JavaFX FXML) sorted by score, kept between runs in `leaderBoard.txt`, with a colour picker for the background.
-- Cake spawns on a random free tile, never on the snake's body.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/controls-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/controls-light.svg">
+    <img src="assets/readme/controls-dark.svg" width="880" alt="Arrow keys or WASD steer, P pauses and resumes, C toggles colour-blind mode. The snake can't reverse into itself, and cake spawns on a random free tile.">
+  </picture>
+</p>
 
-## Tech stack
+The main menu has a name field and Start, Load and Leaderboard buttons. Hitting a wall or your own tail ends the game, and your score goes to the leaderboard: a JavaFX table sorted by score, kept between runs in `leaderBoard.txt`, with a colour picker for the background.
 
-| Area | Tools |
-|---|---|
-| Language | Java |
-| UI | JavaFX (Canvas, Timeline, FXML, TableView) |
-| Persistence | Java object serialization |
-| IDE | IntelliJ IDEA module (`snakeGame/snakeGame.iml`) |
+`Food` picks a random tile and retries until it finds one the snake doesn't occupy, so cake never appears under the body.
+
+## Colour-blind mode
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/palettes-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/palettes-light.svg">
+    <img src="assets/readme/palettes-dark.svg" width="880" alt="Default palette: tiles #AAD751 and #A2D149 with a #4674E9 snake. Colour-blind palette after pressing C: tiles #ECECEC and #AFA6A6 with a black snake.">
+  </picture>
+</p>
+
+The board and snake colours are model state (`GameBoard.setTileColor1/2` and `Snake.setSnakeRace`). Colour-blind mode only swaps those values, and the drawing code stays the same.
 
 ## Architecture
 
-The code is split into three packages under `snakeGame/src`:
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/architecture-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/architecture-light.svg">
+    <img src="assets/readme/architecture-dark.svg" width="880" alt="Three packages: snakeModel holds the rules, View holds the screens and game loop, leaderBoard holds the scores.">
+  </picture>
+</p>
 
-- `snakeModel`: the rules. `Game` holds the `Snake`, `Food` and `GameBoard`, checks for wall and self collisions, and handles eating.
-- `View`: JavaFX screens. `SnakeView` builds the menu, runs the game loop on a 100 ms `Timeline` and draws the board on a `Canvas`. `LoadView` lists saved `.ser` games.
-- `leaderBoard`: `Player` (serializable, compared by score), `LeaderBoardFile` (reads, sorts and writes the leaderboard), and `Controller` with `Controller.fxml` for the table screen.
+`runApp` is the entry point. It creates a `Game` and hands it to `SnakeView`. Each tick of the 100 ms `Timeline` draws the frame, moves the snake, then asks `Game.gameState()` whether the head has left the board or hit the body. Rendering only reads from the model, so the collision and growth rules live in one place.
 
-`runApp` is the entry point. It creates a `Game` and hands it to `SnakeView`.
-
-```mermaid
-flowchart LR
-    runApp --> view["View.SnakeView<br/>menu, game loop, Canvas"]
-    runApp --> game["snakeModel.Game"]
-    view --> game
-    game --> snake["Snake"]
-    game --> food["Food"]
-    game --> board["GameBoard"]
-    view --> load["View.LoadView"]
-    view -- "game over" --> lbfile["leaderBoard.LeaderBoardFile"]
-    lbfile --> txt[("leaderBoard.txt")]
-    view --> ctrl["leaderBoard.Controller<br/>+ Controller.fxml"]
-    ctrl --> txt
-```
-
-## Technical highlights
-
-- Each tick of the `Timeline` draws the frame, moves the snake, then asks `Game.gameState()` whether the head has left the board or hit the body. Rendering only reads from the model, so the collision and growth rules live in one place.
-- `Food` picks a random tile and retries until it lands on one the snake doesn't occupy.
-- The leaderboard stores `Player` objects with Java serialization. `Player` implements `Comparable`, so the list is sorted by score before it is written back.
-- The board and snake colours are model state (`GameBoard.setTileColor1/2`, `Snake.setSnakeRace`), so colour-blind mode is a palette swap and the drawing code doesn't change.
+The leaderboard stores `Player` objects with Java serialization. `Player` implements `Comparable`, so the list is sorted by score before it is written back.
 
 ## Getting started
 
@@ -90,7 +90,3 @@ The leaderboard is written to `leaderBoard.txt` in the directory you run from.
 
 - The Load screen lists `.ser` files, but nothing calls `Game.saveGame` and `Game` doesn't implement `Serializable`, so saving a game doesn't work yet.
 - `Main.java` is an earlier single-file version of the game. `runApp` is the current entry point.
-
-## Team
-
-Built by Haashir Khan, Andrew Kim, Aviraj Ghatora and Ryan Oakley.
